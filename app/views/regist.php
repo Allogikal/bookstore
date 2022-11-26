@@ -9,23 +9,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styleaut.css">
   <link rel="stylesheet" href="/assets/reset.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <form action="" method="post" enctype="multipart/form-data">
+  <form class="registration_form" action="/app/controllers/RegistrationController.php" method="post" enctype="multipart/form-data">
     <h2>Добро пожаловать!</h2>
     <input type="text" name="login" placeholder="введите логин">
     <label class="input-file">
-      <input type="file" name="file">
+      <input type="file" name="user_image">
       <span>выберите файл</span>
     </label>
     <input type="password" name="password" placeholder="введите пароль">
     <input type="password" name="password_confirm" placeholder="подтвердите пароль">
-    <button class="reg" type="submit">Зарегстрироваться</button>
-    <p>Уже есть аккаунт? - <a href="gxg.php">авторизируйтесь</a></p>
+    <button class="reg" type="submit">Зарегистрироваться</button>
+    <p>Уже есть аккаунт? - <a href="/app/views/autoriz.php">авторизируйтесь</a></p>
+
+    <div class="message"></div>
 
   </form>
   <img src="/assets/img/Book lover-bro.svg" alt="qwerty">
-</body>
 
+<!-- Регистрация на ajax -->
+  <script src="/assets/js/moduleSignUp.js"></script>
+
+</body>
 </html>

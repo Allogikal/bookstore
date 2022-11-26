@@ -1,5 +1,5 @@
 <?
-class PDOConnect
+class PDOConnect extends PDO
 {
     // Конфиг для бд
     private const HOST = 'localhost';
@@ -9,8 +9,11 @@ class PDOConnect
     // Поля которые трогать не нужно
     protected $DSN;
     protected $OPD;
+    // То поле которое создаст подключение к БД
     public $PDO;
-    // ТО ЧТО СОЗДАСТ ЭКЗЕМПЛЯР КЛАССА
+
+
+    // ТО ЧТО СОЗДАСТ ЭКЗЕМПЛЯР КЛАССА, его конструктор
     function __construct()
     {
 
@@ -21,7 +24,13 @@ class PDOConnect
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
         );
-
-        $this->PDO = new PDO($this->DSN, self::USER, self::PASS, $this->OPD);
+        // В случае успешного подключения
+        try {
+            $this->PDO = new PDO($this->DSN, self::USER, self::PASS, $this->OPD);
+        }
+        // В случае ошибки - вывод этой ошибки
+        catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }

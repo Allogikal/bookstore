@@ -1,7 +1,3 @@
-<?
-include './app/controllers/UsersController.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,99 +12,131 @@ include './app/controllers/UsersController.php';
     <link rel="shortcut icon" href="./assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.svg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header>
         <nav>
             <div class="nav">
-                <li><img class="logotip" src="./assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.png" alt="картинку съел таракан"></li>
-                <li><a class="catalog" href="./app/views/catalog.php">Каталог</a></li>
+                <li><img class="logotip" src="/assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.png"
+                        alt="картинку съел таракан"></li>
+                <li><a class="catalog" href="/index.php">Каталог</a></li>
                 <li>
                     <div class="logo">
                         <p class="biblio">БИБЛИО</p>
                         <p class="fil">ФИЛ</p>
                     </div>
                 </li>
-                <li><img class="ava" src="./assets/img/man.png" alt="картинку съел таракан"> </li>
-                <li> <a class="user" href="#">user</a></li>
-                <li><a class="exit" href="#">Выйти</a></li>
+                <!-- <li><img class="ava" src="/assets/img/man.png" alt="картинку съел таракан"> </li>
+                <li> <a class="user" href="#">user</a></li> -->
+                <li><a class="exit" href="/app/views/autoriz.php">Войти</a></li>
             </div>
 
         </nav>
 
     </header>
     <div class="container">
-        <div class="container__info">
-            <div class="cover">
-                <div class="solid"></div>
-                <div class="solid__fill"></div>
-                <img class="cover__img" src="./assets/img/image 1.png" alt="картинку съел таракан">
-                <div class="container_rating">
-                    <form method="post" action="#">
-                        <div class="rating">
-                            <label>Рейтинг</label>
-                            <p>4.3</p>
-                        </div>
-                        <div class="rating-area">
-                            <input type="radio" id="star-5" name="rating" value="5">
-                            <label for="star-1" title="Оценка «5»"></label>
-                            <input type="radio" id="star-4" name="rating" value="4">
-                            <label for="star-2" title="Оценка «4»"></label>
-                            <input type="radio" id="star-3" name="rating" value="3">
-                            <label for="star-3" title="Оценка «3»"></label>
-                            <input type="radio" id="star-2" name="rating" value="2">
-                            <label for="star-4" title="Оценка «2»"></label>
-                            <input type="radio" id="star-1" name="rating" value="1">
-                            <label for="star-5" title="Оценка «1»"></label>
-                        </div>
-                    </form>
-                </div>
+        <div class="searchdiv">
+            <div class="genre__link">
+                <select id="genre__select">
+                    <option value="">Жанры</option>
+                    <option value="adventures">Приключения</option>
+                    <option value="fantasy">Фентези</option>
+                    <option value="child">Детская литература</option>
+                    <option value="melodrama">Драма</option>
+                    <option value="comedy">Комедия</option>
+                </select>
             </div>
-            <div class="infblock">
-                <h1>Лолита</h1>
-                <h2>Владимир Набоков</h2>
-                <span class="genre">Драма</span>
-                <div class="year__block">
-                    <p>Год издания:</p>
-                    <p class="year">1955</p>
-                </div>
-                <div class="container__annotation">
-                    <label>О книге</label>
-                    <p>Владимир Набоков - автор многих известных произведений. Но роман «Лолита» принес Набокову не
-                        только огромные гонорары, но и скандальную мировую известность.
-                        Отклик на роман, который появился в английской прессе после выхода романа в 1955 году во Франции
-                        и покатился по всему литературному миру, был неоднозначным. Поведение двух главных героев романа
-                        у одних вызывало ярость и гнев, у других - сочувствие и сопереживание. Но для большинства
-                        читателей Гумберт Гумберт так и остался сомни-тельным героем, а юная Лолита - прелестной
-                        нимфеткой, перешедшей границы своего взросления вызывающе быстро и провокационно.
-                        Читательский интерес к роману «Лолита» не утихает уже более полувека, как не утихает и полемика
-                        по поводу жертвенности или извращенности главных героев романа.</p>
-                </div>
+            <div class="search">
+                <form>
+                    <input type="text" placeholder="Искать здесь..." type="search">
+                    <button type="submit"><img src="/assets/img/search-svgrepo-com.svg" alt=""></button>
+                </form>
             </div>
         </div>
 
-        <div class="comments">
-            <label class="comm">Комментарии</label>
-            <div class="card">
-                <div class="user__comm">
-                    <img class="ava__comm" src="./assets/img/man.png" alt="картинку съел таракан">
-                    <label class="nick__comm">Коромысло</label>
-                </div>
+        <!--Карты товаров -->
 
-                <p class="comm_text">Книга огонь, чуть не умер пока дочитал</p>
+        <div class="grid">
+
+            <div class="first">
+                <div class="cover__catalog">
+                    <div class="solid__catalog NoFillColor1"></div>
+                    <div class="solid__fill__catalog FillColor1"></div>
+                    <img class="cover__img__catalog" src="/assets/img/image 1.png" alt="артинку съел таракан">
+                </div>
+                <div class="namebook">
+                    <h4>Лолита</h4>
+                    <h4>Владимир Набоков</h4>
+                </div>
+                <div class="raitbut">
+                    <img src="/assets/img/star-svgrepo-com.svg" alt="картинку съел таракан">
+                    <p>4.3</p>
+                    <a class="buttonfill FillColor1" href="/app/views/book_card.php">Подробнее</a>
+                </div>
             </div>
-            <div class="mycomment">
-                <label class="comm">Оставьте комментарий</label>
-                <textarea class="mycomm_text" name="text"></textarea>
-                <button class="buttonfill__comm" type="submit">Отправить</button>
+
+            <div class="first">
+                <div class="cover__catalog">
+                    <div class="solid__catalog NoFillColor2"></div>
+                    <div class="solid__fill__catalog FillColor2"></div>
+                    <img class="cover__img__catalog" src="/assets/img/image 1.png" alt="артинку съел таракан">
+                </div>
+                <div class="namebook">
+                    <h4>Лолита</h4>
+                    <h4>Владимир Набоков</h4>
+                </div>
+                <div class="raitbut">
+                    <img src="/assets/img/star-svgrepo-com.svg" alt="картинку съел таракан">
+                    <p>4.3</p>
+                    <a class="buttonfill FillColor2" href="/app/views/book_card.php">Подробнее</a>
+                </div>
             </div>
+
+            <div class="first">
+                <div class="cover__catalog">
+                    <div class="solid__catalog NoFillColor3"></div>
+                    <div class="solid__fill__catalog FillColor3"></div>
+                    <img class="cover__img__catalog" src="/assets/img/image 1.png" alt="артинку съел таракан">
+                </div>
+                <div class="namebook">
+                    <h4>Лолита</h4>
+                    <h4>Владимир Набоков</h4>
+                </div>
+                <div class="raitbut">
+                    <img src="/assets/img/star-svgrepo-com.svg" alt="картинку съел таракан">
+                    <p>4.3</p>
+                    <a class="buttonfill FillColor3" href="/app/views/book_card.php">Подробнее</a>
+                </div>
+            </div>
+            
+            <div class="first">
+                <div class="cover__catalog">
+                    <div class="solid__catalog NoFillColor4"></div>
+                    <div class="solid__fill__catalog FillColor4"></div>
+                    <img class="cover__img__catalog" src="/assets/img/image 1.png" alt="артинку съел таракан">
+                </div>
+                <div class="namebook">
+                    <h4>Лолита</h4>
+                    <h4>Владимир Набоков</h4>
+                </div>
+                <div class="raitbut">
+                    <img src="/assets/img/star-svgrepo-com.svg" alt="картинку съел таракан">
+                    <p>4.3</p>
+                    <a class="buttonfill FillColor4" href="/app/views/book_card.php">Подробнее</a>
+                </div>
+            </div>
+
         </div>
+
+    </div>
     </div>
     <footer>
-        <img src="./assets/img/Rectangle 23.png" alt="картинку съел таракан">
-        <img src="./assets/img/Rectangle 3.png" alt="картинку съел таракан">
+        <img src="/assets/img/Rectangle 23.png" alt="картинку съел таракан">
+        <img src="/assets/img/Rectangle 3.png" alt="картинку съел таракан">
     </footer>
+    <!-- <script src="/assets/js/script.js"></script> -->
 </body>
 
 </html>
