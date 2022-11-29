@@ -51,6 +51,7 @@ header {
     height: 3vw;
     margin: 0 1vw 0 7vw;
     object-fit: cover;
+    border-radius: 50%;
 }
 
 .logo {

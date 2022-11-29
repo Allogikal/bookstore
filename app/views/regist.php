@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +17,7 @@
 </head>
 
 <body>
+
   <form class="registration_form" action="/app/controllers/registrationController.php" method="post" enctype="multipart/form-data">
     <h2>Добро пожаловать!</h2>
     <input type="text" name="login" placeholder="введите логин">
@@ -27,22 +30,18 @@
     <button class="reg" type="submit">Зарегистрироваться</button>
     <p>Уже есть аккаунт? - <a href="/app/views/autoriz.php">Авторизируйтесь</a></p>
 
-    <div class="message">
-      <?php
-      if ($_SESSION['message']) {
-        echo $_SESSION['message'];
-      }
-      unset($_SESSION['message']);
-      ?>
-    </div>
-
+    <?
+    if (isset($_SESSION['message'])) {
+      echo $_SESSION['message'];
+    }
+    unset($_SESSION['message']);
+    ?>
   </form>
+
   <img src="/assets/img/Book lover-bro.svg" alt="qwerty">
 
-  <!-- Регистрация на ajax -->
-  <!-- <script src="/assets/js/registrationControllerAjax.js"></script> -->
-  <!-- Авторизация на ajax -->
-  <!-- <script src="/assets/js/autorizationControllerAjax.js"></script> -->
+  <!-- Регистрация на Ajax -->
+  <script src="/assets/js/registrationControllerAjax.js"></script>
 
 </body>
 

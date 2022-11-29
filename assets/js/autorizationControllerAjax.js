@@ -1,19 +1,18 @@
-$('.login').click(function (e) {
-    e.preventDefault();
-    
-    let login = $('input[name="login"]').val(),
-    password = $('input[name="password"]').val();
+function submitData(action) {
+    $(document).ready(function() {
+        let data = {
+            action: action,
+            login: $("input[name=login]").val(),
+            password: $("input[name=password]").val()
+        };
 
-    $.ajax({
-        url: '/app/controllers/loginController.php',
-        type: 'POST',
-        dataType: 'text',
-        data: {
-            login: login,
-            password: password
-        },
-        success (data) {
-            console.log(data);
-        }
-    })
-});
+        $.ajax({
+            url: '/app/controllers/autorizationController.php',
+            type: 'post',
+            data: data,
+            success:function(response) {
+                alert(response);
+            }
+        });
+    });
+}

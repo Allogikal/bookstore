@@ -32,12 +32,12 @@
             <!-- Элемент меню -->
 
             <li class="menu__item item">
-                <a href="./admin.html" class="menu__link link">
+                <a href="./admin.php" class="menu__link link">
                     <span>Пользователи</span>
                 </a>
             </li>
             <li class="menu__item item">
-                <a href="./adminbook.html" class="menu__link link">
+                <a href="./adminbook.php" class="menu__link link">
                     <span>Посты</span>
                 </a>
             </li>

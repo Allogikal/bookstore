@@ -77,9 +77,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`) VALUES
-(1, 'guest'),
-(2, 'user'),
-(3, 'admin');
+(1, 'user'),
+(2, 'admin');
 
 -- --------------------------------------------------------
 
@@ -89,7 +88,6 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `name` varchar(255) NOT NULL,
   `user_image` varchar(255) NOT NULL,
   `login` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,

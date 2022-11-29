@@ -1,3 +1,7 @@
+<?
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,10 +22,11 @@
 </head>
 
 <body>
-    <header>
+<header>
         <nav>
             <div class="nav">
-                <li><img class="logotip" src="/assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.png" alt="картинку съел таракан"></li>
+                <li><img class="logotip" src="/assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.png"
+                        alt="картинку съел таракан"></li>
                 <li><a class="catalog" href="/index.php">Каталог</a></li>
                 <li>
                     <div class="logo">
@@ -29,9 +34,18 @@
                         <p class="fil">ФИЛ</p>
                     </div>
                 </li>
-                <li><img class="ava" src="/assets/img/man.png" alt="картинку съел таракан"> </li>
-                <li> <a class="user" href="#">user</a></li>
-                <li><a class="exit" href="#">Выйти</a></li>
+                <li>
+                <?
+                if(isset($_SESSION['user']['login'])) {
+                    echo '<img alt="profile" class="ava" src="' . $_SESSION['user']['user_image'] . '">' .
+                    '<li><a class="user" href="#!">' . $_SESSION['user']['login'] . '</a></li>' . 
+                    '<li><a class="exit" href="./app/controllers/logoutController.php">Выйти</a></li>';
+                }
+                else {
+                    echo '<li><a class="exit" href="/app/views/autoriz.php">Войти</a></li>';
+                }
+                ?>
+                </li>
             </div>
 
         </nav>

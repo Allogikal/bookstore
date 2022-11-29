@@ -1,3 +1,7 @@
+<?
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,17 +30,18 @@
   <section class="menu">
     <!-- Логотип -->
     <p class="menu__logo logo">Админ</p>
+    <a class="exit text-center text-decoration-none text-black" href="../controllers/logoutController.php">Выйти</a>
     <!-- Основное меню -->
     <ul class="menu__list list">
       <!-- Элемент меню -->
 
       <li class="menu__item item">
-        <a href="./admin.html" class="menu__link link">
+        <a href="./admin.php" class="menu__link link">
           <span>Пользователи</span>
         </a>
       </li>
       <li class="menu__item item">
-        <a href="./adminbook.html" class="menu__link link">
+        <a href="./adminbook.php" class="menu__link link">
           <span>Посты</span>
         </a>
       </li>
@@ -46,7 +51,7 @@
   <section class="content">
     <h2>Пользователи</h2>
     <div class="grid">
-      <div class="grid__user">
+        <div class="grid__user">
         <div class="user__comm">
           <img class="ava__comm" src="/assets/img/man.png" alt="картинку съел таракан">
           <label class="nick__comm">User</label>

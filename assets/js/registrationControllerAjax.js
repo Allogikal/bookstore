@@ -1,23 +1,19 @@
-$('.reg').click(function (e) {
-    e.preventDefault();
-    
-    let login = $('input[name="login"]').val(),
-    password = $('input[name="password"]').val(),
-    user_image = $('input[name="user_image"]').val(),
-    password_confirm = $('input[name="password"]').val();
+function submitData(action) {
+    $(document).ready(function() {
+        let data = {
+            action: action,
+            login: $("input[name=login]").val(),
+            password: $("input[name=password]").val(),
+            password_confirm: $("input[name=password_confirm]").val(),
+        };
 
-    $.ajax({
-        url: '/app/controllers/registrationController.php',
-        type: 'POST',
-        dataType: 'text',
-        data: {
-            login: login,
-            user_image: user_image,
-            password: password,
-            password_confirm: password_confirm
-        },
-        success (data) {
-            console.log(data);
-        }
-    })
-});
+        $.ajax({
+            url: '/app/controllers/registrationController.php',
+            type: 'post',
+            data: data,
+            success:function(response) {
+                alert(response);
+            }
+        });
+    });
+}

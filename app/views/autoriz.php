@@ -1,3 +1,4 @@
+<? session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,17 +14,24 @@
 </head>
 
 <body>
-  <form action="/app/controllers/LoginController.php" method="post">
+  <form action="/app/controllers/autorizationController.php" method="post">
     <h2>Войдите в личный кабинет</h2>
     <input type="text" name="login" placeholder="введите свой логин">
     <input type="password" name="password" placeholder="введите пароль">
     <button class="login" type="submit">Войти</button>
     <p>У вас нет аккаунта? - <a href="/app/views/regist.php">Зарегистрируйтесь</a></p>
+
+    <?
+    if (isset($_SESSION['message'])) {
+      echo $_SESSION['message'];
+    }
+    unset($_SESSION['message']);
+    ?>
   </form>
   <img src="/assets/img/Bookshop-bro.svg" alt="">
 
   <!-- Авторизация на ajax -->
-  <script src="/assets/js/moduleSignIn.js"></script>
+  <script src="/assets/js/autorizationControllerAjax.js"></script>
 </body>
 
 </html>
