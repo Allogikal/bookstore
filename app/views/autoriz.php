@@ -18,7 +18,7 @@
     <input type="text" name="login" placeholder="введите свой логин">
     <input type="password" name="password" placeholder="введите пароль">
     <button class="login" type="submit">Войти</button>
-    <p>У вас нет аккаунта? - <a href="/app/views/regist.php">зарегистрируйтесь</a></p>
+    <p>У вас нет аккаунта? - <a href="/app/views/regist.php">Зарегистрируйтесь</a></p>
   </form>
   <img src="/assets/img/Bookshop-bro.svg" alt="">
 

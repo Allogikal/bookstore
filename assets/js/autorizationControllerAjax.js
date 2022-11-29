@@ -5,7 +5,7 @@ $('.login').click(function (e) {
     password = $('input[name="password"]').val();
 
     $.ajax({
-        url: '/app/controllers/LoginController.php',
+        url: '/app/controllers/loginController.php',
         type: 'POST',
         dataType: 'text',
         data: {
