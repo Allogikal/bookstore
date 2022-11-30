@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 30 2022 г., 12:06
--- Версия сервера: 8.0.30
--- Версия PHP: 8.1.9
+-- Время создания: Ноя 30 2022 г., 16:10
+-- Версия сервера: 8.0.24
+-- Версия PHP: 8.0.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,6 +32,17 @@ CREATE TABLE `authors` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Дамп данных таблицы `authors`
+--
+
+INSERT INTO `authors` (`id`, `name`) VALUES
+(1, 'Владимир Набоков'),
+(2, 'Стивен Кинг'),
+(3, 'Бабайка натрий'),
+(4, 'Блядский говносос'),
+(5, 'Ебанутый Евгений');
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +60,17 @@ CREATE TABLE `books` (
   `genre_id` int NOT NULL,
   `author_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `books`
+--
+
+INSERT INTO `books` (`id`, `title`, `description`, `year`, `image`, `comments`, `rate`, `genre_id`, `author_id`) VALUES
+(4, 'dfsgh', 'sdgdfgdfgsdfg', 1222, 'assets/uploads/1669808800image 1.png', '', 0, 5, 3),
+(5, 'dfsgdhytyukj', 'dsgfdfgdfgdfsg', 2000, 'assets/uploads/1669810861image 1.png', '', 0, 2, 5),
+(6, 'asdfdf', 'dfsgdfhdgfhnghfjyhdf ovkjcdmnfjvgndrfjesgkdfs', 1000, 'assets/uploads/1669811158image 1.png', '', 0, 3, 3),
+(7, 'dfsgtrhfsdg', 'dfbhgfjtgh dffdshgfhgfkjbxczvbdzfskj', 1239, 'assets/uploads/1669811947image 1.png', '', 0, 4, 2),
+(8, 'dfsgdfgsgdf', 'fgsdfggfdfgsdf', 2003, 'assets/uploads/1669812923image 1.png', '', 0, 4, 4);
 
 -- --------------------------------------------------------
 
@@ -158,13 +180,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `authors`
 --
 ALTER TABLE `authors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `genres`
