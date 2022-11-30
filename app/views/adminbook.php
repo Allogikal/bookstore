@@ -1,3 +1,7 @@
+<?
+session_start();
+require_once '../controllers/booksFetchController.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,6 +44,8 @@
                 <a href="./adminbook.php" class="menu__link link">
                     <span>Посты</span>
                 </a>
+                <button class="create" type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">Создать</button>
             </li>
 
         </ul>
@@ -47,50 +53,42 @@
     <section class="content">
         <div class="post">
             <h2>Посты</h2>
-            <div class="container__info">
+            <?php
+            foreach($books_array as $book) {
+                echo '
+                <div class="container__info">
                 <div class="cover">
-                    <img class="cover__img" src="/assets/img/image 1.png" alt="картинку съел таракан">
+                    <img class="cover__img" src="../../' . $book['image'] . '" alt="картинку съел таракан">
                     <div class="container_rating">
                         <form method="post" action="">
                             <div class="rating">
                                 <label>Рейтинг</label>
-                                <p>4.3</p>
+                                <p>' . $book['rate'] . '4.3</p>
                             </div>
                         </form>
                     </div>
-
                     <button>Удалить</button>
                     <button class="redact" type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">Редактировать</button>
                 </div>
                 <div class="infblock">
-                    <h1>Лолита</h1>
+                    <h1>'. $book['title'] .'</h1>
                     <h2>Владимир Набоков</h2>
                     <span class="genre">Драма</span>
                     <div class="year__block">
                         <p>Год издания:</p>
-                        <p class="year">1955</p>
+                        <p class="year">' . $book['year'] . '</p>
                     </div>
                     <div class="container__annotation">
                         <label>О книге</label>
-                        <p>Владимир Набоков - автор многих известных произведений. Но роман «Лолита» принес Набокову не
-                            только огромные гонорары, но и скандальную мировую известность.
-                            Отклик на роман, который появился в английской прессе после выхода романа в 1955 году во
-                            Франции
-                            и покатился по всему литературному миру, был неоднозначным. Поведение двух главных героев
-                            романа
-                            у одних вызывало ярость и гнев, у других - сочувствие и сопереживание. Но для большинства
-                            читателей Гумберт Гумберт так и остался сомни-тельным героем, а юная Лолита - прелестной
-                            нимфеткой, перешедшей границы своего взросления вызывающе быстро и провокационно.
-                            Читательский интерес к роману «Лолита» не утихает уже более полувека, как не утихает и
-                            полемика
-                            по поводу жертвенности или извращенности главных героев романа.</p>
+                        <p>' . $book['description'] . '</p>
                     </div>
                 </div>
             </div>
+                ';
+            }
+            ?>
         </div>
-        <button class="create" type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Создать</button>
     </section>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

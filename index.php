@@ -1,5 +1,6 @@
 <?
 session_start();
+require_once './app/controllers/genresFetchController.php';
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +55,13 @@ session_start();
             <div class="genre__link">
                 <select id="genre__select">
                     <option value="">Жанры</option>
+                    <?php
+                    foreach ($genres_array as $genre) {
+                        echo '
+                        <option value="' . $genre['name'] . '">' . $genre['name'] . '</option>
+                        ';
+                    }
+                    ?> 
                 </select>
             </div>
             <div class="search">

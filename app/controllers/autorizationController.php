@@ -17,7 +17,7 @@ if(($check_user->rowCount()) > 0) {
         "password" => $user['password'],
         "user_image" => $user['user_image'],
     ];
-    if($user['role_id'] == 3) {
+    if($user['role_id'] == 2) {
         header("Location: /app/views/admin.php");
     }
     else {

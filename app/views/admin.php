@@ -1,5 +1,6 @@
 <?
 session_start();
+require_once '../controllers/usersFetchController.php';
 ?>
 
 <!DOCTYPE html>
@@ -51,14 +52,23 @@ session_start();
   <section class="content">
     <h2>Пользователи</h2>
     <div class="grid">
-        <div class="grid__user">
-        <div class="user__comm">
-          <img class="ava__comm" src="/assets/img/man.png" alt="картинку съел таракан">
-          <label class="nick__comm">User</label>
-        </div>
-        <button type="submit">Бан</button>
-      </div>
 
+        <?php 
+        foreach ($users_array as $user): 
+          if($user['role_id'] != 2) {
+            echo '
+          <div class="grid__user">
+          <div class="user__comm">
+            <img class="ava__comm" src="' . '../../' . $user['user_image'] . '" alt="картинку съел таракан">
+            <label class="nick__comm">' . $user['login'] . '</label>
+          </div>
+          <button type="submit">Бан</button>
+        </div>
+          ';
+          }
+      endforeach;
+        ?>
+        
     </div>
 
   </section>
