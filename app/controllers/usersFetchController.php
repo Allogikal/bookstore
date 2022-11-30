@@ -1,6 +1,7 @@
 <?
+session_start();
 // Подключается внешний файл и создается соединение с БД!
-require_once '../database/db_connect.php';
+require '../database/db_connect.php';
 $PDO = new PDOConnect();
 // Запросом выдергиваем данные о пользователях
 $sql = "SELECT * FROM users";

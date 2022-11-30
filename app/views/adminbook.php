@@ -1,7 +1,13 @@
 <?
 session_start();
-require_once '../controllers/booksFetchController.php';
+// Подключается внешний файл и создается соединение с БД!
+require '../database/db_connect.php';
+$PDO = new PDOConnect();
+require '../controllers/booksFetchController.php';
+require '../controllers/authorsFetchController.php';
+require '../controllers/genresFetchController.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,24 +19,21 @@ require_once '../controllers/booksFetchController.php';
     <link rel="stylesheet" href="/assets/css/styleadmin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>Admin</title>
-    <link rel="shortcut icon" href="/assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.svg"
-        type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.svg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&display=swap" rel="stylesheet">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <section class="menu">
         <!-- Логотип -->
         <p class="menu__logo logo">Админ</p>
+        <a class="exit text-center text-decoration-none text-black" href="../controllers/logoutController.php">Выйти</a>
         <!-- Основное меню -->
         <ul class="menu__list list">
             <!-- Элемент меню -->
@@ -44,8 +47,7 @@ require_once '../controllers/booksFetchController.php';
                 <a href="./adminbook.php" class="menu__link link">
                     <span>Посты</span>
                 </a>
-                <button class="create" type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Создать</button>
+                <button class="create" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Создать</button>
             </li>
 
         </ul>
@@ -54,7 +56,7 @@ require_once '../controllers/booksFetchController.php';
         <div class="post">
             <h2>Посты</h2>
             <?php
-            foreach($books_array as $book) {
+            foreach ($books_array as $book) {
                 echo '
                 <div class="container__info">
                 <div class="cover">
@@ -63,7 +65,7 @@ require_once '../controllers/booksFetchController.php';
                         <form method="post" action="">
                             <div class="rating">
                                 <label>Рейтинг</label>
-                                <p>' . $book['rate'] . '4.3</p>
+                                <p>' . $book['rate'] . '</p>
                             </div>
                         </form>
                     </div>
@@ -72,9 +74,9 @@ require_once '../controllers/booksFetchController.php';
                         data-bs-target="#exampleModal">Редактировать</button>
                 </div>
                 <div class="infblock">
-                    <h1>'. $book['title'] .'</h1>
-                    <h2>Владимир Набоков</h2>
-                    <span class="genre">Драма</span>
+                    <h1>' . $book['title'] . '</h1>
+                    <h2>' . $book['author_id'] . '</h2>
+                    <span class="genre">' . $book['genre_id'] . '</span>
                     <div class="year__block">
                         <p>Год издания:</p>
                         <p class="year">' . $book['year'] . '</p>
@@ -100,24 +102,45 @@ require_once '../controllers/booksFetchController.php';
                 </div>
                 <div class="modal-body">
 
-                    <body>
                         <div class="modal"></div>
 
-                        <form action="" method="post" enctype="multipart/form-data">
+                        <form action="../controllers/insertBookController.php" method="post" enctype="multipart/form-data">
                             <input type="text" name="title" placeholder="введите название">
-                            <input type="text" name="author" placeholder="введите автора">
+                            <select name="author" id="genre__select">
+                                <option value="">Выберите автора</option>
+                                <?php
+                                $i = 0;
+                                foreach ($authors_array as $author) {
+                                    $i++;
+                                    echo '
+                        <option value="' . $i . '">' . $author['name'] . '</option>
+                        ';
+                                }
+                                ?>
+                            </select>
                             <label class="input-file">
-                                <input type="file" name="file">
+                                <input type="file" name="image_book">
                                 <span>выберите обложку</span>
                             </label>
                             <input type="text" name="year" placeholder="введите год">
-                            <input type="text" name="genre" placeholder="введите жанры">
-                            <textarea name="annotation" placeholder="введите аннотацию"></textarea>
+                            <select name="genre" id="genre__select">
+                                <option value="">Выберите жанр</option>
+                                <?php
+                                $i = 0;
+                                foreach ($genres_array as $genre) {
+                                    $i++;
+                                    echo '
+                        <option value="' . $i . '">' . $genre['name'] . '</option>
+                        ';
+                                }
+                                ?>
+                            </select>
+                            <textarea name="description" placeholder="введите описание"></textarea>
 
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary btn__modal">Сохранить</button>
+                            </div>
                         </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn__modal" type="button" class="btn btn-primary">Сохранить</button>
                 </div>
             </div>
         </div>

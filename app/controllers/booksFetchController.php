@@ -1,7 +1,5 @@
 <?
-// Подключается внешний файл и создается соединение с БД!
-require_once '../database/db_connect.php';
-$PDO = new PDOConnect();
+session_start();
 // Запросом выдергиваем данные о книгах
 $sql = "SELECT * FROM books";
 $statement = $PDO->PDO->prepare($sql);

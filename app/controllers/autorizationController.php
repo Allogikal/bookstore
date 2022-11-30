@@ -1,6 +1,6 @@
 <?
 session_start();
-require_once '../database/db_connect.php';
+require '../database/db_connect.php';
 $PDO = new PDOConnect();
 $login = $_POST["login"];
 $password = md5($_POST["password"]);

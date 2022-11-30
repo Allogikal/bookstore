@@ -1,8 +1,8 @@
 <?
 session_start();
-// Запросом выдергиваем данные о Жанрах
-$sql = "SELECT * FROM genres";
+// Запросом выдергиваем данные об авторах
+$sql = "SELECT * FROM authors";
 $statement = $PDO->PDO->prepare($sql);
 // раскодируем все данные на ассоциативный массив
 $statement->execute();
-$genres_array = $statement->fetchAll();
+$authors_array = $statement->fetchAll();
