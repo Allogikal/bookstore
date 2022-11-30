@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 25 2022 г., 17:00
--- Версия сервера: 8.0.24
--- Версия PHP: 8.0.14
+-- Время создания: Ноя 30 2022 г., 12:06
+-- Версия сервера: 8.0.30
+-- Версия PHP: 8.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,6 +61,17 @@ CREATE TABLE `genres` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Дамп данных таблицы `genres`
+--
+
+INSERT INTO `genres` (`id`, `name`) VALUES
+(1, 'Приключения'),
+(2, 'Драмы'),
+(3, 'Фентези'),
+(4, 'Фантастика'),
+(5, 'Ужасы');
+
 -- --------------------------------------------------------
 
 --
@@ -93,6 +104,14 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `role_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `user_image`, `login`, `password`, `role_id`) VALUES
+(1, 'assets/uploads/1669792943ru123256I100003d319a6a28b4cc2371ee85a4b1922be.jpg', 'Anonim', 'd8578edf8458ce06fbc5bb76a58c5ca4', 1),
+(2, 'assets/uploads/1669792961avatarka_dlya_admina_3_18122231.jpg', 'admin', '21232f297a57a5a743894a0e4a801fc3', 2);
 
 --
 -- Индексы сохранённых таблиц
@@ -151,7 +170,7 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT для таблицы `genres`
 --
 ALTER TABLE `genres`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
@@ -163,7 +182,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
