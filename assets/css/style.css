@@ -268,9 +268,8 @@ header {
 
 .rating-area {
     overflow: hidden;
-    width: 265px;
+    width: 300px;
     margin: 0.5vw 0 3vw -2.5vw;
-
 }
 
 .rating-area:not(:checked)>input {
@@ -318,10 +317,6 @@ footer img {
     height: 7vw;
     margin-top: 3vw;
 }
-
-
-
-
 
 select {
     display: block;
@@ -501,3 +496,4 @@ h4 {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 7vw 3vw;
 }
+

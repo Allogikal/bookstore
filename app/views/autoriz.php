@@ -1,4 +1,4 @@
-<? session_start();?>
+<? session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,13 +20,14 @@
     <input type="password" name="password" placeholder="введите пароль">
     <button class="login" type="submit">Войти</button>
     <p>У вас нет аккаунта? - <a href="/app/views/regist.php">Зарегистрируйтесь</a></p>
-
-    <?
-    if (isset($_SESSION['message'])) {
-      echo $_SESSION['message'];
-    }
-    unset($_SESSION['message']);
-    ?>
+    <p style="color: red;">
+      <?
+      if (isset($_SESSION['message'])) {
+        echo $_SESSION['message'];
+      }
+      unset($_SESSION['message']);
+      ?>
+    </p>
   </form>
   <img src="/assets/img/Bookshop-bro.svg" alt="">
 

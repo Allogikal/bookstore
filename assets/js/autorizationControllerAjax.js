@@ -11,6 +11,7 @@ function submitData(action) {
             type: 'post',
             data: data,
             success:function(response) {
+                set_status_code(200);
                 alert(response);
             }
         });

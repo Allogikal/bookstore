@@ -1,11 +1,5 @@
 <?
-session_start();
-// Подключается внешний файл и создается соединение с БД!
-require '../database/db_connect.php';
-$PDO = new PDOConnect();
-require '../controllers/booksFetchController.php';
-require '../controllers/authorsFetchController.php';
-require '../controllers/genresFetchController.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -33,11 +27,15 @@ require '../controllers/genresFetchController.php';
     <section class="menu">
         <!-- Логотип -->
         <p class="menu__logo logo">Админ</p>
-        <a class="exit text-center text-decoration-none text-black" href="../controllers/logoutController.php">Выйти</a>
         <!-- Основное меню -->
         <ul class="menu__list list">
             <!-- Элемент меню -->
 
+            <li class="menu__item item">
+                <a class="menu__link link" href="../controllers/logoutController.php">
+                    <span><b>Выйти</b></span>
+                </a>
+            </li>
             <li class="menu__item item">
                 <a href="./admin.php" class="menu__link link">
                     <span>Пользователи</span>
@@ -47,7 +45,12 @@ require '../controllers/genresFetchController.php';
                 <a href="./adminbook.php" class="menu__link link">
                     <span>Посты</span>
                 </a>
-                <button class="create" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Создать</button>
+                <button class="create" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalAdd">Создать</button>
+            </li>
+            <li class="menu__item item">
+                <a href="./admincomments.php" class="menu__link link">
+                    <span>Комментарии</span>
+                </a>
             </li>
 
         </ul>
@@ -56,6 +59,10 @@ require '../controllers/genresFetchController.php';
         <div class="post">
             <h2>Посты</h2>
             <?php
+            $books_array = getBooks($PDO);
+            $books_authors = getBooksAuthors($PDO);
+            $books_genres = getBooksGenres($PDO);
+            $count=0;
             foreach ($books_array as $book) {
                 echo '
                 <div class="container__info">
@@ -69,14 +76,17 @@ require '../controllers/genresFetchController.php';
                             </div>
                         </form>
                     </div>
-                    <button>Удалить</button>
+                    <form action="../controllers/_deleteBookController.php" method="post">
+                    <input style="display: none;" type="text" value="' . $book['id'] . '" name="id">
+                    <button type="submit">Удалить</button>
+                    </form>
                     <button class="redact" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Редактировать</button>
+                        data-bs-target="#exampleModalEdit">Редактировать</button>
                 </div>
                 <div class="infblock">
-                    <h1>' . $book['title'] . '</h1>
-                    <h2>' . $book['author_id'] . '</h2>
-                    <span class="genre">' . $book['genre_id'] . '</span>
+                    <h1 class="book_title">' . $book['title'] . '</h1>
+                    <h2 class="book_author">Автор: '.$books_authors[$count]['author_name'].'</h2>
+                    <span class="genre">Жанр: '.$books_genres[$count]['genre_name'].'</span>
                     <div class="year__block">
                         <p>Год издания:</p>
                         <p class="year">' . $book['year'] . '</p>
@@ -88,12 +98,13 @@ require '../controllers/genresFetchController.php';
                 </div>
             </div>
                 ';
+                $count++;
             }
             ?>
         </div>
     </section>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal ADD -->
+    <div class="modal fade" id="exampleModalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,49 +113,115 @@ require '../controllers/genresFetchController.php';
                 </div>
                 <div class="modal-body">
 
-                        <div class="modal"></div>
+                    <div class="modal"></div>
 
-                        <form action="../controllers/insertBookController.php" method="post" enctype="multipart/form-data">
-                            <input type="text" name="title" placeholder="введите название">
-                            <select name="author" id="genre__select">
-                                <option value="">Выберите автора</option>
-                                <?php
-                                $i = 0;
-                                foreach ($authors_array as $author) {
-                                    $i++;
-                                    echo '
-                        <option value="' . $i . '">' . $author['name'] . '</option>
+                    <form action="../controllers/_insertBookController.php" method="post" enctype="multipart/form-data">
+                        <input type="text" name="title" placeholder="введите название">
+                        <?php 
+                        $books_array = getBooks($PDO);
+                        foreach ($books_array as $book) {
+                            echo '
+                        <input style="display:none;" name="id" type="text" value="'.$book['id'].'">                        
                         ';
-                                }
-                                ?>
-                            </select>
-                            <label class="input-file">
-                                <input type="file" name="image_book">
-                                <span>выберите обложку</span>
-                            </label>
-                            <input type="text" name="year" placeholder="введите год">
-                            <select name="genre" id="genre__select">
-                                <option value="">Выберите жанр</option>
-                                <?php
-                                $i = 0;
-                                foreach ($genres_array as $genre) {
-                                    $i++;
-                                    echo '
-                        <option value="' . $i . '">' . $genre['name'] . '</option>
-                        ';
-                                }
-                                ?>
-                            </select>
-                            <textarea name="description" placeholder="введите описание"></textarea>
+                        }
+                        ?>
+                        <p>Выберите авторов</p>
+                        <select name="author">
+                        <?php
+                        $authors_array = getAuthors($PDO);
+                        foreach ($authors_array as $author) {
+                            echo '
+                                    <option value="'.$author['id'].'">'.$author['name'].'</option>
+                                    ';
+                        }
+                        ?>
+                        </select>
+                        <label class="input-file">
+                            <input type="file" name="image_book">
+                            <span>выберите обложку</span>
+                        </label>
+                        <input type="text" name="year" placeholder="введите год">
+                        <p>Выберите жанры</p>
+                        <select name="genre">
+                        <?php
+                        $genres_array = getGenres($PDO);
+                        foreach ($genres_array as $genre) {
+                            echo '
+                                    <option value="'.$genre['id'].'">'.$genre['name'].'</option>
+                                    ';
+                        }
+                        ?>
+                        </select>
+                        <textarea name="description" placeholder="введите описание"></textarea>
 
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary btn__modal">Сохранить</button>
-                            </div>
-                        </form>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn__modal">Сохранить</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Modal EDIT -->
+    <div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить пост</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="modal"></div>
+
+                    <form action="../controllers/_updateBookController.php" method="post" enctype="multipart/form-data">
+                        <input type="text" name="title" placeholder="введите название">
+                        <?php 
+                        $books_array = getBooks($PDO);
+                        foreach ($books_array as $book) {
+                            echo '
+                        <input style="display:none;" name="id" type="text" value="'.$book['id'].'">                        
+                        ';
+                        }
+                        ?>
+                        <p>Выберите авторов</p>
+                        <select name="author">
+                        <?php
+                        $authors_array = getAuthors($PDO);
+                        foreach ($authors_array as $author) {
+                            echo '
+                                    <option value="'.$author['id'].'">'.$author['name'].'</option>
+                                    ';
+                        }
+                        ?>
+                        </select>
+                        <label class="input-file">
+                            <input type="file" name="image_book">
+                            <span>выберите обложку</span>
+                        </label>
+                        <input type="text" name="year" placeholder="введите год">
+                        <p>Выберите жанры</p>
+                        <select name="genre">
+                        <?php
+                        $genres_array = getGenres($PDO);
+                        foreach ($genres_array as $genre) {
+                            echo '
+                                    <option value="'.$genre['id'].'">'.$genre['name'].'</option>
+                                    ';
+                        }
+                        ?>
+                        </select>
+                        <textarea name="description" placeholder="введите описание"></textarea>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary btn__modal">Изменить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

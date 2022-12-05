@@ -1,7 +1,5 @@
-<?
-session_start();
-require './app/controllers/genresFetchController.php';
-require './app/controllers/booksFetchController.php';
+<?php
+require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +11,7 @@ require './app/controllers/booksFetchController.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/reset.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/search.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>Bibliophil</title>
     <link rel="shortcut icon" href="./assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.svg" type="image/x-icon">
@@ -23,6 +22,7 @@ require './app/controllers/booksFetchController.php';
 
 <body>
     <header>
+
         <nav>
             <div class="nav">
                 <li><img class="logotip" src="/assets/img/wepik-hand-drawn-monocolor-publisher-logo-20221023-95419.png" alt="картинку съел таракан"></li>
@@ -52,48 +52,66 @@ require './app/controllers/booksFetchController.php';
     <div class="container">
         <div class="searchdiv">
             <div class="genre__link">
-                <select id="genre__select">
+                <form action="../controllers/_sortByGenreController.php" method="post">
+                <select id="genre__select" name="genre">
                     <option value="">Жанры</option>
                     <?php
+                    $genres_array = getGenres($PDO);
                     foreach ($genres_array as $genre) {
                         echo '
-                        <option value="' . $genre['name'] . '">' . $genre['name'] . '</option>
+                        <option name="genre" value="' . $genre['id'] . '">
+                        <button type="submit">' . $genre['name'] .'</button>
+                        </option>
                         ';
                     }
                     ?>
                 </select>
-            </div>
-            <div class="search">
-                <form>
-                    <input type="text" placeholder="Искать здесь..." type="search">
-                    <button type="submit"><img src="/assets/img/search-svgrepo-com.svg" alt=""></button>
                 </form>
             </div>
+            <div class="search_box">
+                <form action="">
+                    <input type="text" autocomplete="off" id="search" name="search" placeholder="Искать здесь...">
+                    <input disabled type="submit">
+                </form>
+                <div id="search_box-result"></div>
+            </div>
+
         </div>
 
         <!--Карты товаров -->
 
         <div class="grid">
             <?
+            $books_array = getBooks($PDO);
+            $books_authors = getBooksAuthors($PDO);
+            $i=0;
+            $count=0;
             foreach ($books_array as $book):
+                if ($i === 4) {
+                    $i=0;
+                }
                 echo '
+                <form action="/app/controllers/_displayBookController.php" method="POST">
                 <div class="first">
                 <div class="cover__catalog">
-                    <div class="solid__catalog NoFillColor1"></div>
-                    <div class="solid__fill__catalog FillColor1"></div>
+                    <div class="solid__catalog NoFillColor'.$i.'"></div>
+                    <div class="solid__fill__catalog FillColor'.$i.'"></div>
                     <img class="cover__img__catalog" src="../../' . $book['image'] . '" alt="артинку съел таракан">
                 </div>
                 <div class="namebook">
                     <h4>' . $book['title'] . '</h4>
-                    <h4>' . $book['author_id'] . '</h4>
+                    <input name="id" style="display:none;" type="text" value="'.$book['id'].'">
+                    <h4>'.$books_authors[$count]['author_name'].'</h4>
                 </div>
                 <div class="raitbut">
                     <img src="/assets/img/star-svgrepo-com.svg" alt="картинку съел таракан">
                     <p>' . $book['rate'] . '</p>
-                    <a class="buttonfill FillColor1" href="/app/views/book_card.php">Подробнее</a>
+                    <button class="buttonfill FillColor'.$i.'" type="submit">Подробнее</button>
                 </div>
-            </div>
+            </div></form>
                 ';
+                $i++;
+                $count++;
             endforeach;
             ?>
 
@@ -105,7 +123,8 @@ require './app/controllers/booksFetchController.php';
         <img src="/assets/img/Rectangle 23.png" alt="картинку съел таракан">
         <img src="/assets/img/Rectangle 3.png" alt="картинку съел таракан">
     </footer>
-    <!-- <script src="/assets/js/script.js"></script> -->
+
+    <script src="../../assets/js/searchControllerAjax.js"></script>
 </body>
 
 </html>

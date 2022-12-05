@@ -9,22 +9,26 @@ $query = "SELECT * FROM users WHERE `password` = '$password' AND `login` = '$log
 $check_user = $PDO->PDO->prepare($query);
 $check_user->execute();
 
-if(($check_user->rowCount()) > 0) {
+if (($check_user->rowCount()) > 0) {
     $user = $check_user->fetch();
-    $_SESSION['user'] = [
-        "id" => $user['id'],
-        "login" => $user['login'],
-        "password" => $user['password'],
-        "user_image" => $user['user_image'],
-    ];
-    if($user['role_id'] == 2) {
-        header("Location: /app/views/admin.php");
+    if ($user['ban_status'] === 0) {
+        $_SESSION['user'] = [
+            "id" => $user['id'],
+            "login" => $user['login'],
+            "password" => $user['password'],
+            "user_image" => $user['user_image'],
+        ];
+        if ($user['role_id'] == 2) {
+            header("Location: /app/views/admin.php");
+        } else {
+            header('Location: /index.php');
+        }
     }
     else {
-        header('Location: /index.php');
+        $_SESSION['message'] = 'Ваш аккаунт заблокирован! Обратитесь к СА!';
+        header('Location: /app/views/autoriz.php');
     }
-}
-else {
+} else {
     $_SESSION['message'] = 'Неверный логин или пароль!';
     header('Location: /app/views/autoriz.php');
 }

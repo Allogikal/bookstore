@@ -9,12 +9,13 @@ function submitData(action) {
             genre: $("input[name=genre]").val(),
             description: $("input[name=description]").val()
         };
-
+        
         $.ajax({
-            url: '/app/controllers/insertBookController.php',
+            url: '/app/controllers/_insertBookController.php',
             type: 'post',
             data: data,
             success:function(response) {
+                set_status_code(200);
                 alert(response);
             }
         });

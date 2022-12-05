@@ -1,6 +1,5 @@
 <?
-session_start();
-require_once '../controllers/usersFetchController.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -31,11 +30,15 @@ require_once '../controllers/usersFetchController.php';
   <section class="menu">
     <!-- Логотип -->
     <p class="menu__logo logo">Админ</p>
-    <a class="exit text-center text-decoration-none text-black" href="../controllers/logoutController.php">Выйти</a>
     <!-- Основное меню -->
     <ul class="menu__list list">
       <!-- Элемент меню -->
 
+      <li class="menu__item item">
+      <a class="menu__link link" href="../controllers/logoutController.php">
+        <span><b>Выйти</b></span>
+      </a>
+      </li>
       <li class="menu__item item">
         <a href="./admin.php" class="menu__link link">
           <span>Пользователи</span>
@@ -46,32 +49,59 @@ require_once '../controllers/usersFetchController.php';
           <span>Посты</span>
         </a>
       </li>
+      <li class="menu__item item">
+        <a href="./adminbook.php" class="menu__link link">
+          <span>Комментарии</span>
+        </a>
+      </li>
 
     </ul>
   </section>
   <section class="content">
-    <h2>Пользователи</h2>
-    <div class="grid">
-
-        <?php 
+        <h2>Пользователи</h2>
+        <div class="grid">
+        <?php
+        $users_array = getUsers($PDO);
         foreach ($users_array as $user): 
           if($user['role_id'] != 2) {
-            echo '
+            if ($user['ban_status'] === 0) {
+              echo '
+              <form method="post" action="../controllers/_banController.php">
           <div class="grid__user">
           <div class="user__comm">
             <img class="ava__comm" src="' . '../../' . $user['user_image'] . '" alt="картинку съел таракан">
             <label class="nick__comm">' . $user['login'] . '</label>
           </div>
+          <input name="id" style="display: none;" value="'.$user['id'].'">
           <button type="submit">Бан</button>
         </div>
+        </form>
           ';
+            }
+            else {
+                echo '
+                <form method="post" action="../controllers/_unbanController.php">
+          <div class="grid__user">
+          <div class="user__comm">
+            <img class="ava__comm" src="' . '../../' . $user['user_image'] . '" alt="картинку съел таракан">
+            <label style="color: red;" class="nick__comm">' . $user['login'] . '</label>
+          </div>
+          <input name="id" style="display: none;" value="'.$user['id'].'">
+          <button type="submit">Разбанить</button>
+        </div>
+        </form>
+          ';
+            }
           }
       endforeach;
         ?>
-        
+        </div>
     </div>
 
   </section>
+
+  <script src="/assets/js/banControllerAjax.js"></script>
+  <script src="/assets/js/unbanControllerAjax.js"></script>
 </body>
 
 </html>

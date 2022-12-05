@@ -15,7 +15,7 @@ if (md5($password) === md5($password_confirm)) {
     if (!move_uploaded_file($_FILES['user_image']['tmp_name'], '../../' . $path)) {
         $_SESSION['message'] = 'Ошибка загрузки изображения!';
     } else {
-        $query = "INSERT INTO users VALUES(NULL, '$path', '$login', '$hash_password', '1')";
+        $query = "INSERT INTO users VALUES(NULL, '$path', '$login', '$hash_password', '1', 0)";
         $statement = $PDO->PDO->prepare($query);
         $statement->execute();
         $_SESSION['user'] = [

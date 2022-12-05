@@ -1,6 +1,3 @@
 <?
-// Подключается внешний файл и создается соединение с БД!
-require './app/database/db_connect.php';
-$PDO = new PDOConnect();
-include './app/views/catalog.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/app/views/catalog.php';
 ?>
