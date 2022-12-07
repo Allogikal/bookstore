@@ -25,7 +25,7 @@ if (($check_user->rowCount()) > 0) {
         }
     }
     else {
-        $_SESSION['message'] = 'Ваш аккаунт заблокирован! Обратитесь к СА!';
+        $_SESSION['message'] = 'Ваш аккаунт заблокирован!';
         header('Location: /app/views/autoriz.php');
     }
 } else {

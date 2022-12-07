@@ -204,6 +204,7 @@ h2 {
 
 .genre {
     font-size: 1.2vw;
+    margin-bottom: 1vw;
 
 }
 
@@ -336,12 +337,14 @@ h2 {
 
 textarea {
     font-size: 1.2vw;
-    margin: 0.5vw 0;
+    margin: 1vw 0;
     padding: 0.8vw;
     border: unset;
     border: solid 0.1vw #000;
     outline: none;
 }
+
+
 
 .btn__modal {
     border: none;
@@ -352,4 +355,8 @@ textarea {
     color: rgb(0, 0, 0);
     font-size: 1vw;
     margin: 0.5vw 0vw;
+}
+
+.description{
+    margin-top: 1vw;
 }

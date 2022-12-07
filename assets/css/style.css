@@ -27,8 +27,8 @@ select,
 }
 
 header {
-    padding: 1vw 15vw 0vw 1vw;
-    height: 4vw;
+    padding: 1vw 15vw 2vw 1vw;
+    height: 5.5vw;
     border: solid #B2DC88;
     border-width: 0 0 0.15vw;
 
@@ -269,7 +269,7 @@ header {
 .rating-area {
     overflow: hidden;
     width: 300px;
-    margin: 0.5vw 0 3vw -2.5vw;
+    margin: 0.5vw 0 3vw -5vw;
 }
 
 .rating-area:not(:checked)>input {
@@ -497,3 +497,14 @@ h4 {
     gap: 7vw 3vw;
 }
 
+.genre__submit {
+    padding: 0.15vw;
+    height: 2vw;
+    width: 2vw;
+    background-color: #B2DC88;
+    border: 0.05vw;
+}
+
+.genre__search {
+    margin: 0.3vw;
+}

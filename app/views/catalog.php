@@ -52,20 +52,20 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
     <div class="container">
         <div class="searchdiv">
             <div class="genre__link">
-                <form action="../controllers/_sortByGenreController.php" method="post">
-                <select id="genre__select" name="genre">
-                    <option value="">Жанры</option>
+                <form action="" method="post">
+                    <p>Жанры</p>
                     <?php
                     $genres_array = getGenres($PDO);
                     foreach ($genres_array as $genre) {
                         echo '
-                        <option name="genre" value="' . $genre['id'] . '">
-                        <button type="submit">' . $genre['name'] .'</button>
-                        </option>
+                        <div class="genre__search">
+                       <input id="genre" class="genre__submit" name="genre" type="submit" value="' . $genre['id'] . '">
+                        <label  for="genre">'.$genre['name'].'</label> </div>
                         ';
+                       
                     }
                     ?>
-                </select>
+                     
                 </form>
             </div>
             <div class="search_box">
@@ -84,6 +84,18 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
             <?
             $books_array = getBooks($PDO);
             $books_authors = getBooksAuthors($PDO);
+            // if ($_POST['genre']) {
+            //     try {
+            //         $genre_id = $_POST['genre'];
+            //         $query = "SELECT * FROM books JOIN `books_genres` ON `books`.id = `books_genres`.book_id WHERE `books_genres`.genre_id='$genre_id'";
+            //     $statement = $PDO->PDO->prepare($query);
+            //     $statement->execute();
+            //     $books_array = $statement->fetchAll();
+            //     }
+            //     catch (PDOException $e) {
+            //         echo "Database error: " . $e->getMessage();
+            //     };
+            // }
             $i=0;
             $count=0;
             foreach ($books_array as $book):
@@ -100,7 +112,8 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                 </div>
                 <div class="namebook">
                     <h4>' . $book['title'] . '</h4>
-                    <input name="id" style="display:none;" type="text" value="'.$book['id'].'">
+                    <input name="id" style="display:none;" type="text" value="'.$book['id']. '">
+                    <input name="author_name" type="text" value="' . $books_authors[$count]['author_name'] . '">
                     <h4>'.$books_authors[$count]['author_name'].'</h4>
                 </div>
                 <div class="raitbut">

@@ -152,7 +152,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                         }
                         ?>
                         </select>
-                        <textarea name="description" placeholder="введите описание"></textarea>
+                        <textarea class="description" name="description" placeholder="введите описание"></textarea>
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary btn__modal">Сохранить</button>
@@ -211,7 +211,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                         }
                         ?>
                         </select>
-                        <textarea name="description" placeholder="введите описание"></textarea>
+                        <textarea class="description" name="description" placeholder="введите описание"></textarea>
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary btn__modal">Изменить</button>

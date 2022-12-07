@@ -1,7 +1,10 @@
 <?
+session_start();
 require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
-error_reporting(E_ERROR | E_PARSE);
 ?>
+<pre>
+    <?= print_r($_SESSION); ?>
+</pre>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,8 +54,9 @@ error_reporting(E_ERROR | E_PARSE);
     </header>
     <div class="container">
         <?
-        $books_authors = getBooksAuthors($PDO);
         $books_genres = getBooksGenres($PDO);
+        $books_authors = getBooksAuthors($PDO);
+        $author_name = $_SESSION['item'][0]['name'];
         $count=0;
         foreach ($_SESSION['item'] as $item) {
             echo '
@@ -91,8 +95,7 @@ error_reporting(E_ERROR | E_PARSE);
             </div>
             <div class="infblock">
                 <h1>' . $item['title'] . '</h1>
-                <h2>'.$books_authors[$count]['author_name'].'</h2>
-                <span class="genre">'.$books_genres[$count]['genre_name'].'</span>
+                <span class="genre">'. $author_name.'</span>
                 <div class="year__block">
                     <p>Год издания:</p>
                     <p class="year">' . $item['year'] . '</p>
@@ -118,7 +121,7 @@ error_reporting(E_ERROR | E_PARSE);
                         echo '
                 <div class="card">
                 <div class="user__comm">
-                    <img class="ava__comm" src="/assets/img/man.png" alt="картинку съел таракан">
+                    <img class="ava__comm" src="../../' . $_SESSION['user']['user_image'] . '" alt="картинку съел таракан">
                     <label class="nick__comm">' . $comment['user_comment'] . '</label>
                     <label style="margin-left: 50px;" class="nick__comm">' . $comment['date_comment'] . '</label>
                 </div>

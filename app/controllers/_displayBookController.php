@@ -4,15 +4,14 @@ require '../database/db_connect.php';
 $PDO = new PDOConnect();
 
 $id = $_POST['id'];
+$author_name = $_POST['author_name'];
 
 try {
-    // Запросом выдергиваем данные о книгах
-    $sql = "SELECT * FROM books WHERE id='$id'";
+    $sql = "SELECT * FROM books, authors WHERE authors.name='$author_name' AND books.id = '$id'";
     $statement = $PDO->PDO->prepare($sql);
-    // Раскодируем все данные на ассоциативный массив
     $statement->execute();
     $item_array = $statement->fetchAll();
-    $_SESSION['item'] = $item_array;
+    array_push($item_array, $author_name);
 } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
 };
