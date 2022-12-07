@@ -60,9 +60,6 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
             <h2>Посты</h2>
             <?php
             $books_array = getBooks($PDO);
-            $books_authors = getBooksAuthors($PDO);
-            $books_genres = getBooksGenres($PDO);
-            $count=0;
             foreach ($books_array as $book) {
                 echo '
                 <div class="container__info">
@@ -98,7 +95,6 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                 </div>
             </div>
                 ';
-                $count++;
             }
             ?>
         </div>

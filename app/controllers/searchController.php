@@ -8,20 +8,26 @@ if (!empty($_POST['search'])) {
     $search = $_POST['search'];
     $search = mb_eregi_replace("[^a-zа-яё0-9 ]", '', $search);
     $search = trim($search);
-    $sql = "SELECT * FROM books, genres AS genre_name, authors RIGHT JOIN books_authors ON books_authors.author_id = authors.id WHERE books.title LIKE '{$search}%' OR authors.name LIKE '{$search}%' ORDER BY title";
+    $sql = "SELECT
+    books.*,
+    GROUP_CONCAT(authors.name SEPARATOR ', ') AS 'authors',
+    GROUP_CONCAT(genres.name SEPARATOR ', ') AS 'genres'
+    FROM books_authors
+    LEFT JOIN books ON books.id = books_authors.book_id
+    LEFT JOIN authors ON authors.id = books_authors.author_id
+    LEFT JOIN books_genres ON books_genres.book_id = books.id
+    LEFT JOIN genres ON genres.id = books_genres.genre_id
+    WHERE books.title LIKE '{$search}%' OR authors.name LIKE '{$search}%'
+    GROUP BY books.id";
     $statement = $PDO->PDO->prepare($sql);
     $statement->execute();
     $books_array = $statement->fetchAll();
-    $result = array_unique($books_array);
-    if ($result) {
+    if ($books_array) {
     ?>
         <div class="search_result">
             <table>
                 <?php
-                $books_authors = getBooksAuthors($PDO);
-                $books_genres = getBooksGenres($PDO);
-                $count = 0;
-                foreach ($result as $book) : 
+                foreach ($books_array as $book) : 
                     echo '
                 <div class="container__info">
                 <div class="cover">
@@ -29,8 +35,8 @@ if (!empty($_POST['search'])) {
                 </div>
                 <div class="infblock">
                     <h1 class="book_title">' . $book['title'] . '</h1>
-                    <h2 class="book_author">Автор: '.$books_authors[$count]['author_name'].'</h2>
-                    <span class="genre">Жанр: '.$books_genres[$count]['genre_name'].'</span>
+                    <h2 class="book_author">Автор: '.$book['authors'].'</h2>
+                    <span class="genre">Жанр: '.$book['genres'].'</span>
                     <div class="year__block">
                         <p>Год издания:</p>
                         <p class="year">' . $book['year'] . '</p>
@@ -38,7 +44,6 @@ if (!empty($_POST['search'])) {
                 </div>
             </div>
                 ';
-                $count++;
                 endforeach;
                 ?>
             </table>

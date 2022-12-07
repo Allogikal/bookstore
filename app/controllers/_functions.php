@@ -23,7 +23,16 @@ function getBooksGenres($PDO)
 
 function getBooks($PDO)
 {
-    $sql = "SELECT * FROM books";
+    $sql = "SELECT
+    books.*,
+    GROUP_CONCAT(authors.name SEPARATOR ', ') AS 'authors',
+    GROUP_CONCAT(genres.name SEPARATOR ', ') AS 'genres'
+    FROM books_authors
+    LEFT JOIN books ON books.id = books_authors.book_id
+    LEFT JOIN authors ON authors.id = books_authors.author_id
+    LEFT JOIN books_genres ON books_genres.book_id = books.id
+    LEFT JOIN genres ON genres.id = books_genres.genre_id
+    GROUP BY books.id";
     $statement = $PDO->PDO->prepare($sql);
     $statement->execute();
     $books_array = $statement->fetchAll();

@@ -4,7 +4,8 @@ function submitData(action) {
         let data = {
             action: action,
             rate: $("input[name=rating]").val(),
-            rate_count: $("input[name=rate_count]").val()
+            rate_count: $("input[name=rate_count]").val(),
+            id: $("input[name=id]").val()
         };
 
         $.ajax({

@@ -1,5 +1,6 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
+error_reporting(E_ERROR | E_PARSE);
 ?>
 
 <!DOCTYPE html>
@@ -83,21 +84,19 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
         <div class="grid">
             <?
             $books_array = getBooks($PDO);
-            $books_authors = getBooksAuthors($PDO);
-            // if ($_POST['genre']) {
-            //     try {
-            //         $genre_id = $_POST['genre'];
-            //         $query = "SELECT * FROM books JOIN `books_genres` ON `books`.id = `books_genres`.book_id WHERE `books_genres`.genre_id='$genre_id'";
-            //     $statement = $PDO->PDO->prepare($query);
-            //     $statement->execute();
-            //     $books_array = $statement->fetchAll();
-            //     }
-            //     catch (PDOException $e) {
-            //         echo "Database error: " . $e->getMessage();
-            //     };
-            // }
+            if ($_POST['genre']) {
+                try {
+                    $genre_id = $_POST['genre'];
+                    $query = "SELECT * FROM books JOIN `books_genres` ON `books`.id = `books_genres`.book_id WHERE `books_genres`.genre_id='$genre_id'";
+                $statement = $PDO->PDO->prepare($query);
+                $statement->execute();
+                $books_array = $statement->fetchAll();
+                }
+                catch (PDOException $e) {
+                    echo "Database error: " . $e->getMessage();
+                };
+            }
             $i=0;
-            $count=0;
             foreach ($books_array as $book):
                 if ($i === 4) {
                     $i=0;
@@ -113,8 +112,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                 <div class="namebook">
                     <h4>' . $book['title'] . '</h4>
                     <input name="id" style="display:none;" type="text" value="'.$book['id']. '">
-                    <input name="author_name" type="text" value="' . $books_authors[$count]['author_name'] . '">
-                    <h4>'.$books_authors[$count]['author_name'].'</h4>
+                    <h4>'.$book['authors'].'</h4>
                 </div>
                 <div class="raitbut">
                     <img src="/assets/img/star-svgrepo-com.svg" alt="картинку съел таракан">
@@ -124,7 +122,6 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
             </div></form>
                 ';
                 $i++;
-                $count++;
             endforeach;
             ?>
 

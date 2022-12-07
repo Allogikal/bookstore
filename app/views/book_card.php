@@ -1,10 +1,7 @@
 <?
-session_start();
 require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
+error_reporting(E_ERROR | E_PARSE);
 ?>
-<pre>
-    <?= print_r($_SESSION); ?>
-</pre>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,27 +51,39 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
     </header>
     <div class="container">
         <?
-        $books_genres = getBooksGenres($PDO);
-        $books_authors = getBooksAuthors($PDO);
-        $author_name = $_SESSION['item'][0]['name'];
-        $count=0;
-        foreach ($_SESSION['item'] as $item) {
+        $id = $_SESSION['item'][0]['id'];
+        $sql = "SELECT
+        books.*,
+        GROUP_CONCAT(authors.name SEPARATOR ', ') AS 'authors',
+        GROUP_CONCAT(genres.name SEPARATOR ', ') AS 'genres'
+        FROM books_authors
+        LEFT JOIN books ON books.id = books_authors.book_id
+        LEFT JOIN authors ON authors.id = books_authors.author_id
+        LEFT JOIN books_genres ON books_genres.book_id = books.id
+        LEFT JOIN genres ON genres.id = books_genres.genre_id
+        WHERE books.id = '{$id}'
+        GROUP BY books.id";
+        $statement = $PDO->PDO->prepare($sql);
+        $statement->execute();
+        $books_array = $statement->fetchAll();
+        foreach ($books_array as $book) {
             echo '
             <div class="container__info">
             <div class="cover">
                 <div class="solid"></div>
                 <div class="solid__fill"></div>
-                <img class="cover__img" src="../../' . $item['image'] . '" alt="картинку съел таракан">
+                <img class="cover__img" src="../../' . $book['image'] . '" alt="картинку съел таракан">
                 <div class="container_rating">
-                    <form method="post" action="../controllers/_addRatingController.php">
                         <div class="rating">
                             <label>Рейтинг</label>
-                            <p>' . $item['rate'] . '</p>
-                            <input style="display:none;" name="rate_count" type="submit" value="'.$item['rate_count'].'">
+                            <p>' . $book['rate'] . '</p>
                         </div>
                         ';
-                        if ($_SESSION['user']) {
-                            echo '
+            if ($_SESSION['user']) {
+                echo '
+                            <form method="post" action="../controllers/_addRatingController.php">
+                            <input style="display: none;" name="id" type="text" value="' . $book['id'] . '">
+                            <input style="display: none;" name="rate_count" type="text" value="' . $book['rate_count'] . '">
                             <div class="rating-area">
                             <input type="submit" id="star-1" name="rating" value="5">
                             <label for="star-1" title="Оценка «1»"></label>
@@ -87,27 +96,27 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                             <input type="submit" id="star-5" name="rating" value="1">
                             <label for="star-5" title="Оценка «5»"></label>
                             </div>
+                            </form>
                             ';
-                        }
-                        echo '
-                    </form>
+            }
+            echo '
                 </div>
             </div>
             <div class="infblock">
-                <h1>' . $item['title'] . '</h1>
-                <span class="genre">'. $author_name.'</span>
+                <h1>' . $book['title'] . '</h1>
+                <h2>' . $book['authors'] . '</h2>
+                <span class="genre">' . $book['genres'] . '</span>
                 <div class="year__block">
                     <p>Год издания:</p>
-                    <p class="year">' . $item['year'] . '</p>
+                    <p class="year">' . $book['year'] . '</p>
                 </div>
                 <div class="container__annotation">
                     <label>О книге</label>
-                    <p>' . $item['description'] . '</p>
+                    <p>' . $book['description'] . '</p>
                 </div>
             </div>
         </div>
             ';
-            $count++;
         }
         ?>
 
