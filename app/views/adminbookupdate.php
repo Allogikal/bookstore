@@ -56,77 +56,20 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
         </ul>
     </section>
     <section class="content">
-        <div class="post">
-            <h2>Посты</h2>
-            <?php
-            $books_array = getBooks($PDO);
-            foreach ($books_array as $book) {
-                echo '
-                <div class="container__info">
-                <div class="cover">
-                    <img class="cover__img" src="../../' . $book['image'] . '" alt="картинку съел таракан">
-                    <div class="container_rating">
-                        <form method="post" action="">
-                            <div class="rating">
-                                <label>Рейтинг</label>
-                                <p>' . $book['rate'] . '</p>
-                            </div>
-                        </form>
-                    </div>
-                    <form action="../controllers/_deleteBookController.php" method="post">
-                    <input style="display: none;" type="text" value="' . $book['id'] . '" name="id">
-                    <button type="submit">Удалить</button>
-                    </form>
-                    <form action="../views/adminbookupdate.php" method="post">
-                    <input style="display: none;" type="text" value="' . $book['id'] . '" name="id">
-                    <input style="display: none;" type="text" value="' . $book['title'] . '" name="title">
-                    <input style="display: none;" type="text" value="' . $book['year'] . '" name="year">
-                    <input style="display: none;" type="text" value="' . $book['description'] . '" name="description">
-                    <input style="display: none;" type="text" value="' . $book['authors'] . '" name="authors">
-                    <input style="display: none;" type="text" value="' . $book['genres'] . '" name="genres">
-                    <button type="submit">Редактировать</button>
-                    </form>
-                </div>
-                <div class="infblock">
-                    <h1 class="book_title">' . $book['title'] . '</h1>
-                    <h2 class="book_author">Автор: '.$book['authors'].'</h2>
-                    <span class="genre">Жанр: '.$book['genres'].'</span>
-                    <div class="year__block">
-                        <p>Год издания:</p>
-                        <p class="year">' . $book['year'] . '</p>
-                    </div>
-                    <div class="container__annotation">
-                        <label>О книге</label>
-                        <p>' . $book['description'] . '</p>
-                    </div>
-                </div>
-            </div>
-                ';
-            }
-            ?>
-        </div>
-    </section>
-    <!-- Modal ADD -->
-    <div class="modal fade" id="exampleModalAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Создать пост</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить пост</h1>
                 </div>
                 <div class="modal-body">
-
-                    <div class="modal"></div>
-
-                    <form action="../controllers/_insertBookController.php" method="post" enctype="multipart/form-data">
-                        <input type="text" name="title" placeholder="введите название">
+                    <form style="display: flex; flex-direction: column;" action="../controllers/_updateBookController.php" method="post" enctype="multipart/form-data">
                         <?php 
-                        $books_array = getBooks($PDO);
-                        foreach ($books_array as $book) {
-                            echo '
-                        <input style="display:none;" name="id" type="text" value="'.$book['id'].'">                        
+                        echo '
+                        <input type="text" name="title" value="'.$_POST['title'].'" placeholder="Введите название">
                         ';
-                        }
+                            echo '
+                        <input style="display:none;" name="id" type="text" value="'.$_POST['id'].'">                        
+                        ';
                         ?>
                         <p>Выберите авторов</p>
                         <select multiple name="author[]">
@@ -143,7 +86,11 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                             <input type="file" name="image_book">
                             <span>выберите обложку</span>
                         </label>
-                        <input type="text" name="year" placeholder="введите год">
+                        <?php 
+                        echo '
+                        <input type="text" name="year" value="'.$_POST['year'].'" placeholder="введите год">
+                        ';
+                        ?>
                         <p>Выберите жанры</p>
                         <select multiple name="genre[]">
                         <?php
@@ -155,16 +102,20 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
                         }
                         ?>
                         </select>
-                        <textarea class="description" name="description" placeholder="введите описание"></textarea>
+                        <?
+                        echo '
+                        <textarea class="description" name="description" placeholder="введите описание">'.$_POST['description'].'</textarea>
+                        ';
+                        ?>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary btn__modal">Сохранить</button>
+                            <button type="submit" class="btn btn-primary btn__modal">Изменить</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
 </body>
 

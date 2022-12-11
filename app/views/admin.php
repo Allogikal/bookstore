@@ -50,7 +50,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/app/controllers/_functions.php';
         </a>
       </li>
       <li class="menu__item item">
-        <a href="./adminbook.php" class="menu__link link">
+        <a href="./admincomments.php" class="menu__link link">
           <span>Комментарии</span>
         </a>
       </li>

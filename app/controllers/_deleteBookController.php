@@ -18,6 +18,10 @@ try {
     $query = "DELETE FROM books WHERE id = $id";
     $statement = $PDO->PDO->prepare($query);
     $statement->execute();
+
+    $query = "ALTER TABLE books AUTO_INCREMENT=25;";
+    $statement = $PDO->PDO->prepare($query);
+    $statement->execute();
 } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
 };

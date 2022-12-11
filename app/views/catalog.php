@@ -87,7 +87,17 @@ error_reporting(E_ERROR | E_PARSE);
             if ($_POST['genre']) {
                 try {
                     $genre_id = $_POST['genre'];
-                    $query = "SELECT * FROM books JOIN `books_genres` ON `books`.id = `books_genres`.book_id WHERE `books_genres`.genre_id='$genre_id'";
+                    $query = "SELECT
+    books.*,
+    GROUP_CONCAT(DISTINCT authors.name SEPARATOR ', ') AS 'authors',
+    GROUP_CONCAT(DISTINCT genres.name SEPARATOR ', ') AS 'genres'
+    FROM books_authors
+    LEFT JOIN books ON books.id = books_authors.book_id
+    LEFT JOIN authors ON authors.id = books_authors.author_id
+    LEFT JOIN books_genres ON books_genres.book_id = books.id
+    LEFT JOIN genres ON genres.id = books_genres.genre_id
+    WHERE books_genres.genre_id = '{$genre_id}'
+    GROUP BY books.id";
                 $statement = $PDO->PDO->prepare($query);
                 $statement->execute();
                 $books_array = $statement->fetchAll();

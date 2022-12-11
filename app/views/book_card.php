@@ -54,8 +54,8 @@ error_reporting(E_ERROR | E_PARSE);
         $id = $_SESSION['item'][0]['id'];
         $sql = "SELECT
         books.*,
-        GROUP_CONCAT(authors.name SEPARATOR ', ') AS 'authors',
-        GROUP_CONCAT(genres.name SEPARATOR ', ') AS 'genres'
+        GROUP_CONCAT(DISTINCT authors.name SEPARATOR ', ') AS 'authors',
+        GROUP_CONCAT(DISTINCT genres.name SEPARATOR ', ') AS 'genres'
         FROM books_authors
         LEFT JOIN books ON books.id = books_authors.book_id
         LEFT JOIN authors ON authors.id = books_authors.author_id

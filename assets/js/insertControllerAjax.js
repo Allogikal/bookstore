@@ -3,10 +3,10 @@ function submitData(action) {
         let data = {
             action: action,
             title: $("input[name=title]").val(),
-            author: $("input[name=author]").val(),
+            author: $("input[name=author[]]").val(),
             image_book: $("input[name=image_book]").val(),
             year: $("input[name=year]").val(),
-            genre: $("input[name=genre]").val(),
+            genre: $("input[name=genre[]]").val(),
             description: $("input[name=description]").val()
         };
         
